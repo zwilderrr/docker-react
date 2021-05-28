@@ -1,0 +1,22 @@
+# travis is a service that watches for changes (eg on Github) and
+# then runs code
+language: generic
+
+sudo: required
+
+# tell travis we ned docker running
+services:
+  - docker
+
+# build the image using the docker file.
+# we take the image so that we can easily reference it
+before_install:
+  - docker build -t zwilderrr/docker-react -f Dockerfile.dev .
+
+# all the commands to run
+script:
+  # tell npm run test to exit when finished instead of waiting
+  # for user input. This allows travis to advance to the next
+  # step, because all it's waiting for is a non-zero exit code
+  # (eg no failure) from the previous step to continue
+  - docker run zwilderrr/docker-react npm run test -- --coverage
