@@ -1,7 +1,5 @@
 # travis is a service that watches for changes (eg on Github) and
 # then runs code
-language: generic
-
 sudo: required
 
 # tell travis we ned docker running
