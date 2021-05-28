@@ -17,4 +17,4 @@ script:
   # for user input. This allows travis to advance to the next
   # step, because all it's waiting for is a non-zero exit code
   # (eg no failure) from the previous step to continue
-  - docker run zwilderrr/docker-react npm run test -- --coverage
+  - docker run zwilderrr/docker-react CI=true npm run test
