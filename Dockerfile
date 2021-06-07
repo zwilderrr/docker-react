@@ -8,6 +8,7 @@ COPY . .
 RUN npm run build
 
 FROM nginx
+EXPOSE 80
 # copy the files generated in the build step above. Since this is
 # our production code, all we need is the build file and a
 # minimalistic server to serve it
