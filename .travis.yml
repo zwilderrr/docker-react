@@ -7,7 +7,7 @@ services:
   - docker
 
 # build the image using the docker file.
-# we take the image so that we can easily reference it
+# we tag the image so that we can easily reference it
 before_install:
   - docker build -t zwilderrr/docker-react -f Dockerfile.dev .
 
@@ -15,6 +15,27 @@ before_install:
 script:
   # tell npm run test to exit when finished instead of waiting
   # for user input. This allows travis to advance to the next
-  # step, because all it's waiting for is a non-zero exit code
+  # step, because all Tavis is waiting for is a non-zero exit code
   # (eg no failure) from the previous step to continue
   - docker run zwilderrr/docker-react -e CI=true npm run test
+
+# config to deploy to elastic beanstalk
+deploy:
+  # travis is preconfiged to connect
+  provider: elasticbeanstalk
+  region: "us-east-1"
+  app: "docker-react"
+  env: "Dockerreact-env"
+  # s3 bucket aws created to hold our code. Travis sends our code
+  # here
+  bucket_name: "elasticbeanstalk-us-east-1-057346568725"
+  # until first deploy, this will likely not have been created.
+  # Until then, use the name of the app
+  bucket_path: "docker-react"
+  on:
+    branch: master
+  # credentials created in AWS and stored securely on Travis by
+  # the following variable names
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: "$AWS_SECRET_KEY"
